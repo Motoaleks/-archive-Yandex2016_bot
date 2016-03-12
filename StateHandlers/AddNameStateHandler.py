@@ -1,6 +1,6 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
-class StartStateHandler(StateHandler):
+class AddNameStateHandler(StateHandler):
     def __init__(self):
         id=0
         state_menu=[]

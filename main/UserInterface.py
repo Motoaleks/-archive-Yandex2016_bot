@@ -32,14 +32,20 @@ class UserInterface(telepot.helper.UserHandler):
         self.cards={}
         self.stateHandlers = {StateHandlers.StateHandler.State.start : StateHandlers.StartStateHandler(),
                  StateHandlers.StateHandler.State.main : StateHandlers.MainStateHandler(),
-                 StateHandlers.StateHandler.State.choose_acc : StateHandlers.ChooseAccStateHandler()}
+                 StateHandlers.StateHandler.State.choose_acc : StateHandlers.ChooseAccStateHandler(),
+                              StateHandlers.StateHandler.State.balance_show : StateHandlers.BalanceStateHandler(),
+                              StateHandlers.StateHandler.State.inpute_sum : StateHandlers.InputSumStateHandler(),
+                              StateHandlers.StateHandler.State.add_acc : StateHandlers.AddAccStateHandler(),
+                              StateHandlers.StateHandler.State.add_name : StateHandlers.AddNameStateHandler(),
+                              StateHandlers.StateHandler.State.add_numb : StateHandlers.AddNameStateHandler()
+                              }
     def on_message(self, msg):
         flavor = telepot.flavor(msg)
         if flavor == 'normal':
             content_type, chat_type, chat_id = telepot.glance(msg)
             if chat_type=='private':
                 if content_type=='text':
-                    if( msg['text']=='/help'):
+                    if( msg['text']=='/help' and not self.user_state ==StateHandlers.StateHandler.State.main):
                         self.stateHandlers[StateHandlers.StateHandler.State.main].EnterState(self, self.stateHandlers)
                     else:
                         self.stateHandlers[self.user_state].EvaluateState(self, msg, self.stateHandlers)
