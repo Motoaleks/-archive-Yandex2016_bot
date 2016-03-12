@@ -24,7 +24,7 @@ class Account:
         self.account_ID = int(account_id)
         self.NUMBER = number
         self.chat_ID = chat_id
-        self.TYPE = int(type)
+        self.TYPE = type
         self.NAME = name
 
     # set name
