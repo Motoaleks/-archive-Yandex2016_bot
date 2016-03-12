@@ -1,6 +1,4 @@
-import os
 import sqlite3
-
 from DB.User import User
 
 
@@ -9,6 +7,7 @@ class DataBase:
     c = None  # cursor
     dbName = 'BotArmy.db'
 
+    #constructor
     def __init__(self):
         self.conn = sqlite3.connect(self.dbName)
         self.c = self.conn.cursor()
@@ -28,6 +27,14 @@ class DataBase:
                        (user.id, user.phone, user.email, user.token, user.state, str(user.args)))
         self.commit()
 
+    # delete user
+    def deleteUser(self, id):
+        if not self.checkID(id):
+            self.c.execute('DELETE FROM BotArmy WHERE id = ' + id)
+        else:
+            raise NameError('User not exist')
+
+    # check if ID is not exist
     def checkID(self, id):
         if self.getUser(id) is None:
             # if user not exists
@@ -58,11 +65,14 @@ class DataBase:
 
     # change Args
     def updateArgs(self, id, args):
-        self.c.execute('UPDATE BotArmy SET state  = ? WHERE id=?', (str(args), id))
+        temp = str(args)
+        self.c.execute('UPDATE BotArmy SET args  = ? WHERE id= ?', (temp, id))
         self.commit()
-    # =============SETTERS END=============
+
+        # =============SETTERS END=============
 
     # =============GETTERS=============
+
     def getPhone(self, id):
         user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
         return user.fetchone()[1]
@@ -100,22 +110,38 @@ class DataBase:
     def __del__(self):
         self.conn.close()
 
+    # commit
     def commit(self):
         self.conn.commit()
 
 
-db = DataBase()
-db.printAll()
-user = User("1123", '8-800-555-35-35', 'sashaTzar@yandex.ru', '123', '0', {'key': 'hi'})
-try:
-    db.insertUser(user)
-except:
-    print("User already exists! Test complete!")
-print('Phone:' + db.getPhone('1123'))
-print('Email:' + db.getEmail('1123'))
-print('Token:' + db.getToken('1123'))
-print('State:' + db.getState('1123'))
-print('Args:' + str(db.getArgs('1123')))
-
-db.printAll()
-# print(db.getArgs('1123'))
+# db = DataBase()
+# db.printAll()
+# user = User("1123", '8-800-555-35-35', 'sashaTzar@yandex.ru', '123', '0', {'key': 'hi', 'ID': '123'})
+# try:
+#     db.insertUser(user)
+# except:
+#     print("User already exists! Test complete!")
+# print('Phone:' + db.getPhone('1123'))
+# print('Email:' + db.getEmail('1123'))
+# print('Token:' + db.getToken('1123'))
+# print('State:' + db.getState('1123'))
+# print('Args:' + str(db.getArgs('1123')))
+#
+# db.updatePhone('1123', '8-800')
+# db.updateEmail('1123', 'LOH')
+# db.updateToken('1123', '666')
+# db.updateState('1123', 'Complete')
+# db.updateArgs('1123', {'123': 23})
+#
+# print('Phone:' + db.getPhone('1123'))
+# print('Email:' + db.getEmail('1123'))
+# print('Token:' + db.getToken('1123'))
+# print('State:' + db.getState('1123'))
+# print('Args:' + str(db.getArgs('1123')))
+#
+# db.printAll()
+#
+# db.deleteUser('1123')
+#
+# db.printAll()
