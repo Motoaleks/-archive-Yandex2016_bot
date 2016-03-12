@@ -1,6 +1,3 @@
-# А я хочу СultEvent!!!
-© Andrey
-
 # BotArmy
 Bot fight YANDEX 2016
 
@@ -24,3 +21,6 @@ Bot fight YANDEX 2016
 4-ый в телеге:
 
 12.03.2016
+
+### Спасибо за СultEvent!!!
+© Andrey
