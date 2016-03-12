@@ -25,16 +25,14 @@ class RedirectHandler(BaseHTTPRequestHandler):
         elif(self.path[:9] == '/endpoint'):
             print(self.path)
             ps = parse_qs(self.path[10:])
-            #bot.sendMessage(148567946, ps['code'][0])
             set_token(ps['code'][0], ps['id'][0])
             bot.sendMessage(ps['id'][0], 'Thanks. Now we can continue with sending money. Send me /give and follow instrucitions.')
-            #self.do_HEAD()
             self.send_response(200)
             self.end_headers()
+            self.wfile.write('Thank you. Now you can close this window.')
 
 httpd = HTTPServer((HOST_NAME, PORT_NUMBER), RedirectHandler)
 print(time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER))
 httpd.serve_forever()
 httpd.server_close()
 print(time.asctime(), "Server Stops - %s:%s" % (HOST_NAME, PORT_NUMBER))
-#initBot()
