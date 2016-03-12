@@ -6,7 +6,7 @@ class TypeOfAccount(Enum):
     PHONE = 2
     KILLFISH = 777
 
-# All fields are str, except 'account_ID' è 'TYPE'
+# All fields are str, except 'account_ID' ï¿½ 'TYPE'
 class Account:
     chat_ID = "" # user id
     account_ID = -1 # unique ID, may be used for deleting
@@ -58,4 +58,7 @@ class Account:
 
     # Can we add object to DB
     def isValid(self):
-        return len(name) > 0 and len(number) > 0 and TYPE > 0
+        return len(self.NAME) > 0 and len(self.NUMBER) > 0 and self.TYPE > 0
+
+    def toString(self):
+        print("Account_ID", self.account_ID, "Chat_ID", self.chat_ID, "Number", self.NUMBER, "Type", self.TYPE, "Name", self.NAME)

@@ -1,7 +1,6 @@
 import sqlite3
 
-from DB.Account import Account
-from DB.User import User
+from DB.AccountBot import Account
 
 
 class DataBase:
@@ -28,6 +27,13 @@ class DataBase:
         self.c.execute('INSERT INTO Account (number, type, chat_id, name) VALUES (?,?,?,?)',
                        (number, type, chat_id, name))
         self.commit()
+
+    # insert new user to DB
+    def addUser(self, chat_id, token):
+        self.c.execute('INSERT INTO User (chat_id, token) VALUES (?,?)',
+                       (chat_id, token))
+        self.commit()
+
 
     # get all accounts which have the chat_id
     def getAccounts(self, chat_id):
@@ -81,5 +87,9 @@ class DataBase:
 #db = DataBase()
 #db.addAccount("345", "35", "49", "Zhenya")
 #db.addAccount("123", "1", "42", "Nastya")
+#db.removeAccount("1")
 #for i in db.getAccounts("49"):
 #    Account.toString(i)
+#db.addUser("56", "678")
+#db.setToken("56", "666")
+#print(db.getToken("56"))
