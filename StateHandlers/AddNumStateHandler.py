@@ -1,13 +1,27 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
+from DB.AccountBot import Account, TypeOfAccount
 class AddNumStateHandler(StateHandler):
     def __init__(self):
-        id=0
-        state_menu=[]
-    def EnterState(self, ui, stateHandlers):
-        pass
+        id=StateHandler.State.add_numb
+        state_menu=["Назад"]
+    def EnterState(self, ui, stateHandlers,ac):
+        self.account=ac
+        ui.user_state = self.id
+        kb = [[self.state_menu[0]]]
+        show_keyboard = {'keyboard': kb}
+        shablon_dict={TypeOfAccount.PHONE:"телефона через 7 без разделителей (напр. 79123456789).",
+                 TypeOfAccount.STRELKA:"карты 'Стрелка' без разделителей (напр. 01234567890).",
+                 TypeOfAccount.TROYKA:"карты 'Тройка' без разделителей (напр. 0123456789)."}
+        ui.sender.sendMessage("Введите номер "+shablon_dict[self.account.TYPE], reply_markup=show_keyboard)
     def EvaluateState(self, ui, msg, stateHandlers):
         import telepot
         ui.content_type, ui.chat_type, ui.chat_id = telepot.glance(msg)
-        ui.sender.sendMessage("Привет! Я ticket-buy bot! Я помогу быстро и удобно проверить и пополнить баланс карт Тройка и Стрелка или счёт телефона. Перейди по ссылке и разреши нам доступ)\n"+get_auth_url(ui.chat_id))
-        #TODO:check token
+        if msg['text'] == self.state_menu[0]:  # "Назад"
+            stateHandlers[StateHandler.State.add_acc].EnterState(ui, stateHandlers)
+            return
+        else:  # Ввели номер с клавиатуры
+            try:
+                pass
+            except:
+                pass

@@ -1,5 +1,5 @@
 ﻿from enum import Enum
-import Parsing.SteelCard
+from parsing import SteelCard
 
 balance_for_troyka = " На любой из станций метро найдите желтый круг и приложите к нему свою карту. В апреле, возможно будет вам баланс."
 balance_for_phone = "Билайн - *102#.\nМегафон и МТС - *100#\n.Tele2 - *105#."
@@ -8,7 +8,7 @@ balance_for_phone = "Билайн - *102#.\nМегафон и МТС - *100#\n.T
 class TypeOfAccount(Enum):
     STRELKA = 0     # 11 symbols
     TROYKA = 1      # 10 symbols
-    PHONE = 2       # 10 symbols
+    PHONE = 2       # 11 symbols
     KILLFISH = 777
 
 # All fields are str, except 'account_ID' � 'TYPE'
@@ -26,10 +26,10 @@ class Account:
         self.chat_ID = chat_id
         self.TYPE = int(type)
         self.NAME = name
-        
+
     # set name
     def setName(self, name_str, limit):
-        
+
         if len(name_str) > limit:
             raise Exception("Limit is exceed")
 
@@ -47,10 +47,10 @@ class Account:
 
         valid_num = int(number)
 
-        if (self.TYPE == 0 and len(number) != 11):
+        if ((self.TYPE == 0 or self.TYPE == 2) and len(number) != 11):#Strelka or telephone
             raise Exception("Invalid number")
-        
-        if ((self.TYPE == 1 or self.TYPE == 2) and len(number) != 10):
+
+        if ((self.TYPE == 1 ) and len(number) != 10):#Troika
             raise Exception("Invalid number")
 
         self.NUMBER = valid_num
@@ -64,7 +64,7 @@ class Account:
         if (self.TYPE == 2):
             return balance_for_phone
 
-        return Parsing.SteelCard.get_balance(self.NUMBER)
+        return SteelCard.get_balance(self.NUMBER)
 
     # Can we add object to DB
     def isValid(self):

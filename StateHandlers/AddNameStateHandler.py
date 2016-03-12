@@ -1,13 +1,31 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
+from DB.AccountBot import Account, TypeOfAccount
+
+
 class AddNameStateHandler(StateHandler):
     def __init__(self):
-        id=0
-        state_menu=[]
-    def EnterState(self, ui, stateHandlers):
-        pass
+        id = StateHandler.State.add_name
+        state_menu = ["Назад"]
+
+    def EnterState(self, ui, stateHandlers, ac):
+        self.account = ac
+        ui.user_state = self.id
+        kb = [[self.state_menu[0]]]
+        show_keyboard = {'keyboard': kb}
+        ui.sender.sendMessage("Введите имя.", reply_markup=show_keyboard)
+
     def EvaluateState(self, ui, msg, stateHandlers):
         import telepot
         ui.content_type, ui.chat_type, ui.chat_id = telepot.glance(msg)
-        ui.sender.sendMessage("Привет! Я ticket-buy bot! Я помогу быстро и удобно проверить и пополнить баланс карт Тройка и Стрелка или счёт телефона. Перейди по ссылке и разреши нам доступ)\n"+get_auth_url(ui.chat_id))
-        #TODO:check token
+        if msg['text'] == self.state_menu[0]:  # "Назад"
+            stateHandlers[StateHandler.State.add_acc].EnterState(ui, stateHandlers)
+            return
+        else:  # Ввели имя с клавиатуры
+            try:
+                self.account.setName(msg['text'], 15)
+            except:
+                ui.sender.sendMessage("Введено слишком длинное имя. Ограничьтесь 15 символами)")
+                stateHandlers[StateHandler.State.add_acc].EnterState(ui, stateHandlers)
+                return
+            stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers, self.account)
