@@ -1,4 +1,6 @@
 import sqlite3
+
+from DB.Account import Account
 from DB.User import User
 
 
@@ -17,33 +19,40 @@ class DataBase:
     def createDb(self):
         self.c.execute('''CREATE TABLE IF NOT EXISTS User
              (chat_id TEXT, token TEXT)''')
-        self.c.execute('''CREATE TABLE IF NOT EXISTS Numbers
+        self.c.execute('''CREATE TABLE IF NOT EXISTS Account
              (id INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT, type TEXT, chat_id TEXT, name TEXT)''')
         self.commit()
 
-    # insert user
-    def addNumber(self, number, type, chat_id, name):
-        self.c.execute("INSERT INTO Numbers (number, type, chat_id, name) VALUES (?,?,?,?)",
+    # insert new account to DB
+    def addAccount(self, number, type, chat_id, name):
+        self.c.execute('INSERT INTO Account (number, type, chat_id, name) VALUES (?,?,?,?)',
                        (number, type, chat_id, name))
         self.commit()
 
-    def getNumbers(self, chat_id):
-        numbers = self.c.execute('SELECT * FROM Numbers WHERE chat_id = ' + chat_id)
-        return numbers
+    # get all accounts which have the chat_id
+    def getAccounts(self, chat_id):
+        numbers = self.c.execute('SELECT * FROM Account WHERE chat_id = ' + chat_id)
+        res_numbers = list()
+        for i in numbers:
+            res_numbers.append(Account(i[0], i[1], i[2], i[3], i[4]))
+        return res_numbers
 
+    # return token which has a user with such chat_id
     def getToken(self, chat_id):
         user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + chat_id)
         return user.fetchone()[1]
 
+    # add new user or update the existing one
     def setToken(self, chat_id, token):
         if not self.checkID(chat_id):
-            #raise NameError("ID already exists")
+            #user already exists
             self.c.execute('UPDATE User SET token = ? WHERE chat_id = ?', (token, chat_id))
         else:
-            self.c.execute("INSERT INTO User (chat_id, token) VALUES (?,?)",
-                       (chat_id, token))
+            #add new user to DB
+            self.c.execute('INSERT INTO User (chat_id, token) VALUES (?,?)', (chat_id, token))
         self.commit()
 
+    # check if the user already exist
     def checkID(self, chat_id):
         if self.getUser(chat_id) is None:
             # if user not exists
@@ -51,12 +60,14 @@ class DataBase:
         # if user was found - problemo
         return False
 
+    # get the user via chat_id
     def getUser(self, chat_id):
         user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + str(chat_id))
         return user.fetchone()
 
-    def removeNumber(self, id):
-        self.c.execute('DELETE FROM Numbers WHERE id = ' + id)
+    # delete the
+    def removeAccount(self, id):
+        self.c.execute('DELETE FROM Account WHERE id = ' + id)
         self.commit()
 
     # destructor - close connection
@@ -67,33 +78,8 @@ class DataBase:
     def commit(self):
         self.conn.commit()
 
-# db = DataBase()
-# db.printAll()
-# user = User("1123", '8-800-555-35-35', 'sashaTzar@yandex.ru', '123', '0', {'key': 'hi', 'ID': '123'})
-# try:
-#     db.insertUser(user)
-# except:
-#     print("User already exists! Test complete!")
-# print('Phone:' + db.getPhone('1123'))
-# print('Email:' + db.getEmail('1123'))
-# print('Token:' + db.getToken('1123'))
-# print('State:' + db.getState('1123'))
-# print('Args:' + str(db.getArgs('1123')))
-#
-# db.updatePhone('1123', '8-800')
-# db.updateEmail('1123', 'LOH')
-# db.updateToken('1123', '666')
-# db.updateState('1123', 'Complete')
-# db.updateArgs('1123', {'123': 23})
-#
-# print('Phone:' + db.getPhone('1123'))
-# print('Email:' + db.getEmail('1123'))
-# print('Token:' + db.getToken('1123'))
-# print('State:' + db.getState('1123'))
-# print('Args:' + str(db.getArgs('1123')))
-#
-# db.printAll()
-#
-# db.deleteUser('1123')
-#
-# db.printAll()
+#db = DataBase()
+#db.addAccount("345", "35", "49", "Zhenya")
+#db.addAccount("123", "1", "42", "Nastya")
+#for i in db.getAccounts("49"):
+#    Account.toString(i)
