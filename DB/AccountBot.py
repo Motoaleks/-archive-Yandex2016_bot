@@ -6,20 +6,20 @@ class TypeOfAccount(Enum):
     PHONE = 2
     KILLFISH = 777
 
-# ВСЕ ПОЛЯ ТИПА STRING, КРОМЕ 'account_ID' и 'TYPE'
+# All fields are str, except 'account_ID' и 'TYPE'
 class Account:
-    chat_ID = "" # юзер, которому принадлежит счет
-    account_ID = -1 # уникальное ID для счета, используем для удаления
+    chat_ID = "" # user id
+    account_ID = -1 # unique ID, may be used for deleting
     NAME = ""
     TYPE = -1
     NUMBER = ""
 
-    # Конструктор для Андрея : по мере инициализации полей
+    # Constructor for user
     def __init__(self, chat_id, account_id):
         self.chat_ID = chat_id
-        self.account_ID = account_id
+        self.account_ID = int(account_id)
 
-    # Конструктор для Насти: для загрузки из БД
+    # Constructor for BD
     def __init__(self, account_id, number, type, chat_id, name):
         self.account_ID = int(account_id)
         self.NUMBER = number
@@ -28,20 +28,20 @@ class Account:
         self.NAME = name
 
 
-    # Установка имени
+    # set name
     def setName(self, name_str, limit):
         
         if len(name_str) > limit:
             raise Exception("Limit is exceed")
 
-    # Установка типа счёта
+    # set type account
     def setType(self, type_of_account):
         valid_type = int(type_of_account)
         if (type_of_account > 3 or type_of_account < 0):
             raise Exception("Invalid type of account")
         TYPE = valid_type
 
-    # Установка номера (карты или телефона)
+    # set number
     def setNumber(self, number):
         if(self.TYPE < 0 or self.TYPE > 2):
             raise Exception("Invalid type of account")
@@ -56,6 +56,6 @@ class Account:
 
         self.NUMBER = valid_num
 
-    # Можно ли добавлять объект в БД
+    # Can we add object to DB
     def isValid(self):
         return len(name) > 0 and len(number) > 0 and TYPE > 0
