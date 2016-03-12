@@ -4,7 +4,7 @@ from DB.DataBase import DataBase
 
 class ChooseAccStateHandler(StateHandler):
     def __init__(self):
-        self.id = 2
+        self.id = StateHandler.State.choose_acc
         self.state_menu = ["Назад"]
 
     def EnterState(self, ui, stateHandlers):
@@ -16,23 +16,24 @@ class ChooseAccStateHandler(StateHandler):
             stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)
             return
         kb = []
-        ui.cards = {}
+        self.cards = {}
         strip = []
         for i in range(len(cards)):
             strip.append(cards[i].tostring())
-            ui.cards.update((cards[i].tostring(), cards[i]))
+            self.cards.update((cards[i].tostring(), cards[i]))
             if i % 2 == 1:
                 kb.append[strip]
                 strip = []
         kb.append(self.state_menu)
         show_keyboard = {'keyboard': kb}
         ui.sender.sendMessage("Выберите счёт", reply_markup=show_keyboard)
-        ui.user_state = id
 
     def EvaluateState(self, ui, msg, stateHandlers):
-        if msg['text'] == self.state_menu[0]:  # "Проверить и пополнить баланс"
-            self.action_on_check(msg)
-        elif msg['text'] == self.state_menu[1]:  # "Добавить счёт"
-            pass
+        # print(msg['text'])
+        if msg['text'] == self.state_menu[0]:
+            stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)
+        elif self.cards.__contains__(msg['text']):
+            stateHandlers[StateHandler.State.balance_show].EnterState(ui, stateHandlers, self.cards[msg['text']])
         else:
-            self.action_on_help()
+            ui.sender.sendMessage("Неверное имя счёта")
+            stateHandlers[StateHandler.State.choose_acc].EnterState(ui, stateHandlers)
