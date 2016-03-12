@@ -29,31 +29,28 @@ class Account:
 
     # set name
     def setName(self, name_str, limit):
-
         if len(name_str) > limit:
             raise Exception("Limit is exceed")
+        self.NAME = name_str
 
     # set type account
     def setType(self, type_of_account):
-        valid_type = int(type_of_account)
         if (type_of_account > 3 or type_of_account < 0):
             raise Exception("Invalid type of account")
-        TYPE = valid_type
+        self.TYPE = type_of_account
 
     # set number
     def setNumber(self, number):
-        if(self.TYPE < 0 or self.TYPE > 2):
-            raise Exception("Invalid type of account")
 
         valid_num = int(number)
 
-        if ((self.TYPE == 0 or self.TYPE == 2) and len(number) != 11):#Strelka or telephone
+        if ((self.TYPE == TypeOfAccount.STRELKA or self.TYPE == TypeOfAccount.PHONE) and len(number) != 11):#Strelka or telephone
             raise Exception("Invalid number")
 
-        if ((self.TYPE == 1 ) and len(number) != 10):#Troika
+        if ((self.TYPE == TypeOfAccount.TROYKA) and len(number) != 10):#Troika
             raise Exception("Invalid number")
 
-        self.NUMBER = valid_num
+        self.NUMBER = number
 
     # Sasha, poprav' method!
     def getBalance(self):
@@ -68,4 +65,4 @@ class Account:
 
     # Can we add object to DB
     def isValid(self):
-        return len(self.NAME) > 0 and len(self.NUMBER) > 0 and self.TYPE > 0
+        return len(self.NAME) > 0 and len(self.NUMBER) > 0

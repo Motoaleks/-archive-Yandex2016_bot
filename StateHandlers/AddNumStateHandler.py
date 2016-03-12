@@ -26,7 +26,7 @@ class AddNumStateHandler(StateHandler):
                 self.account.setNumber(msg['text'])
             except:
                 ui.sender.sendMessage("Введен неправильный номер.")
-                stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers)
+                stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers, self.account)
                 return
             if self.account.isValid():
                 # todo add to BD
@@ -37,4 +37,4 @@ class AddNumStateHandler(StateHandler):
                 ui.sender.sendMessage("Success")
             else:
                 ui.sender.sendMessage("Failure")
-            stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers,self.account)
+            stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)

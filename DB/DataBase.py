@@ -1,6 +1,6 @@
 import sqlite3
 
-from DB.AccountBot import Account
+from DB.AccountBot import Account, TypeOfAccount
 
 
 class DataBase:
@@ -27,7 +27,7 @@ class DataBase:
     # insert new account to DB
     def addAccount(self, number, type, chat_id, name):
         self.c.execute('INSERT INTO Account (number, type, chat_id, name) VALUES (?,?,?,?)',
-                       (number, type, chat_id, name))
+                       (number, type.value, chat_id, name))
         self.commit()
 
     #if account exists
