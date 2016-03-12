@@ -1,12 +1,12 @@
 from enum import Enum
 
 class TypeOfAccount(Enum):
-    STRELKA = 0
-    TROYKA = 1
-    PHONE = 2
+    STRELKA = 0     # 11 symbols
+    TROYKA = 1      # 10 symbols
+    PHONE = 2       # 10 symbols
     KILLFISH = 777
 
-# All fields are str, except 'account_ID' ï¿½ 'TYPE'
+# All fields are str, except 'account_ID' è 'TYPE'
 class Account:
     chat_ID = "" # user id
     account_ID = -1 # unique ID, may be used for deleting
@@ -14,20 +14,14 @@ class Account:
     TYPE = -1
     NUMBER = ""
 
-    # Constructor for user
-    def __init__(self, chat_id, account_id):
-        self.chat_ID = chat_id
-        self.account_ID = int(account_id)
-
-    # Constructor for BD
-    def __init__(self, account_id, number, type, chat_id, name):
+    # Constructor
+    def __init__(self, chat_id, account_id, type, name = "",  number = ""):
         self.account_ID = int(account_id)
         self.NUMBER = number
         self.chat_ID = chat_id
         self.TYPE = int(type)
         self.NAME = name
-
-
+        
     # set name
     def setName(self, name_str, limit):
         
@@ -48,10 +42,10 @@ class Account:
 
         valid_num = int(number)
 
-        if (self.TYPE == TypeOfAccount.STRELKA and valid_num != 10):
+        if (self.TYPE == 0 and len(number) != 11):
             raise Exception("Invalid number")
         
-        if ((self.TYPE == TypeOfAccount.TROYKA or self.TYPE == TypeOfAccount.PHONE) and valid_num != 10):
+        if ((self.TYPE == 1 or self.TYPE == 2) and len(number) != 10):
             raise Exception("Invalid number")
 
         self.NUMBER = valid_num
@@ -59,6 +53,3 @@ class Account:
     # Can we add object to DB
     def isValid(self):
         return len(self.NAME) > 0 and len(self.NUMBER) > 0 and self.TYPE > 0
-
-    def toString(self):
-        print("Account_ID", self.account_ID, "Chat_ID", self.chat_ID, "Number", self.NUMBER, "Type", self.TYPE, "Name", self.NAME)
