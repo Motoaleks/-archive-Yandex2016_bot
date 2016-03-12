@@ -10,7 +10,9 @@ class DataBase:
 
     # constructor
     def __init__(self):
-        self.conn = sqlite3.connect(self.dbName)
+        import os
+        path = os.getcwd()
+        self.conn = sqlite3.connect(path + "\\" + self.dbName)
         self.c = self.conn.cursor()
         self.createDb()
 

@@ -1,5 +1,5 @@
 ﻿from enum import Enum
-import SteelCard
+import Parsing.SteelCard
 
 balance_for_troyka = " На любой из станций метро найдите желтый круг и приложите к нему свою карту. В апреле, возможно будет вам баланс."
 balance_for_phone = "Билайн - *102#.\nМегафон и МТС - *100#\n.Tele2 - *105#."
@@ -64,7 +64,7 @@ class Account:
         if (self.TYPE == 2):
             return balance_for_phone
 
-        return SteelCard.get_balance(self.NUMBER)
+        return Parsing.SteelCard.get_balance(self.NUMBER)
 
     # Can we add object to DB
     def isValid(self):
