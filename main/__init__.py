@@ -2,7 +2,7 @@
 import sys
 import telepot
 from telepot.delegate import per_from_id, create_open
-from UserInterface import UserInterface
+from main.UserInterface import UserInterface
 
 TOKEN = sys.argv[1]
 bot = telepot.DelegatorBot(TOKEN, [(per_from_id(),
