@@ -1,3 +1,6 @@
+# А я хочу СultEvent!!!
+© Andrey
+
 # BotArmy
 Bot fight YANDEX 2016
 
