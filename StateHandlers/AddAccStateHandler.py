@@ -30,5 +30,5 @@ class AddAccStateHandler(StateHandler):
         else:
             stateHandlers[StateHandler.State.add_acc].EnterState(ui, stateHandlers)
             return
-        ac = Account(ui.chat_id, "", type)
+        ac = Account(ui.chat_id, "0", type)
         stateHandlers[StateHandler.State.add_name].EnterState(ui, stateHandlers, ac)

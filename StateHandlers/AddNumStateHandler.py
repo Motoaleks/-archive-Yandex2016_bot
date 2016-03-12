@@ -1,6 +1,7 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
 from DB.AccountBot import Account, TypeOfAccount
+
 class AddNumStateHandler(StateHandler):
     def __init__(self):
         self.id=StateHandler.State.add_numb
@@ -28,7 +29,12 @@ class AddNumStateHandler(StateHandler):
                 stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers)
                 return
             if self.account.isValid():
-                pass # todo add to BD
+                # todo add to BD
+                from DB.DataBase import DataBase
+                db=DataBase()
+                ac=self.account
+                db.addAccount(ac.NUMBER,ac.TYPE,ac.chat_ID,ac.NAME)
+                ui.sender.sendMessage("Success")
             else:
-                pass #
+                ui.sender.sendMessage("Failure")
             stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers,self.account)
