@@ -7,7 +7,7 @@ class DataBase:
     c = None  # cursor
     dbName = 'BotArmy.db'
 
-    #constructor
+    # constructor
     def __init__(self):
         self.conn = sqlite3.connect(self.dbName)
         self.c = self.conn.cursor()
@@ -15,96 +15,49 @@ class DataBase:
 
     # Create table
     def createDb(self):
-        self.c.execute('''CREATE TABLE IF NOT EXISTS BotArmy
-             (id TEXT, phone TEXT, email TEXT, token TEXT, state TEXT, args TEXT)''')
+        self.c.execute('''CREATE TABLE IF NOT EXISTS User
+             (chat_id TEXT, token TEXT)''')
+        self.c.execute('''CREATE TABLE IF NOT EXISTS Numbers
+             (id INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT, type TEXT, chat_id TEXT, name TEXT)''')
         self.commit()
 
     # insert user
-    def insertUser(self, user):
-        if not self.checkID(user.id):
-            raise NameError("ID already exists")
-        self.c.execute("INSERT INTO BotArmy (id,phone,email,token,state,args) VALUES (?,?,?,?,?,?)",
-                       (user.id, user.phone, user.email, user.token, user.state, str(user.args)))
+    def addNumber(self, number, type, chat_id, name):
+        self.c.execute("INSERT INTO Numbers (number, type, chat_id, name) VALUES (?,?,?,?)",
+                       (number, type, chat_id, name))
         self.commit()
 
-    # delete user
-    def deleteUser(self, id):
-        if not self.checkID(id):
-            self.c.execute('DELETE FROM BotArmy WHERE id = ' + id)
-        else:
-            raise NameError('User not exist')
+    def getNumbers(self, chat_id):
+        numbers = self.c.execute('SELECT * FROM Numbers WHERE chat_id = ' + chat_id)
+        return numbers
 
-    # check if ID is not exist
-    def checkID(self, id):
-        if self.getUser(id) is None:
+    def getToken(self, chat_id):
+        user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + chat_id)
+        return user.fetchone()[1]
+
+    def setToken(self, chat_id, token):
+        if not self.checkID(chat_id):
+            #raise NameError("ID already exists")
+            self.c.execute('UPDATE User SET token = ? WHERE chat_id = ?', (token, chat_id))
+        else:
+            self.c.execute("INSERT INTO User (chat_id, token) VALUES (?,?)",
+                       (chat_id, token))
+        self.commit()
+
+    def checkID(self, chat_id):
+        if self.getUser(chat_id) is None:
             # if user not exists
             return True
         # if user was found - problemo
         return False
 
-    # =============SETTERS=============
-    # change phone
-    def updatePhone(self, id, phone):
-        self.c.execute('UPDATE BotArmy SET phone  = ? WHERE id=?', (phone, id))
-        self.commit()
-
-    # change email
-    def updateEmail(self, id, email):
-        self.c.execute('UPDATE BotArmy SET email  = ? WHERE id=?', (email, id))
-        self.commit()
-
-    # change token
-    def updateToken(self, id, token):
-        self.c.execute('UPDATE BotArmy SET token  = ? WHERE id=?', (token, id))
-        self.commit()
-
-    # change state
-    def updateState(self, id, state):
-        self.c.execute('UPDATE BotArmy SET state  = ? WHERE id=?', (state, id))
-        self.commit()
-
-    # change Args
-    def updateArgs(self, id, args):
-        temp = str(args)
-        self.c.execute('UPDATE BotArmy SET args  = ? WHERE id= ?', (temp, id))
-        self.commit()
-
-        # =============SETTERS END=============
-
-    # =============GETTERS=============
-
-    def getPhone(self, id):
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
-        return user.fetchone()[1]
-
-    def getEmail(self, id):
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
-        return user.fetchone()[2]
-
-    def getToken(self, id):
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
-        return user.fetchone()[3]
-
-    def getState(self, id):
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
-        return user.fetchone()[4]
-
-    def getUser(self, id):
-        # try:
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + str(id))
+    def getUser(self, chat_id):
+        user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + str(chat_id))
         return user.fetchone()
 
-    def getArgs(self, id):
-        user = self.c.execute('SELECT * FROM BotArmy WHERE id = ' + id)
-        temp = user.fetchone()[5]
-        return eval(temp)
-
-    # =============GETTERS END=============
-
-    # print database
-    def printAll(self):
-        for row in self.c.execute('SELECT * FROM BotArmy'):
-            print(row)
+    def removeNumber(self, id):
+        self.c.execute('DELETE FROM Numbers WHERE id = ' + id)
+        self.commit()
 
     # destructor - close connection
     def __del__(self):
@@ -113,7 +66,6 @@ class DataBase:
     # commit
     def commit(self):
         self.conn.commit()
-
 
 # db = DataBase()
 # db.printAll()
