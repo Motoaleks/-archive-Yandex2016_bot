@@ -8,7 +8,7 @@ class ChooseAccStateHandler(StateHandler):
         ui.user_state=self.id
         db = DataBase()
         cards=db.getAccounts(ui.chat_id)#дичь какая-то
-        if len(cards==0):
+        if len(cards) == 0:
             ui.sender.sendMessage("У Вас еще нет счетов")
             stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)
             return

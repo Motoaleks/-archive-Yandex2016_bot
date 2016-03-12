@@ -44,7 +44,7 @@ class DataBase:
 
     # get all accounts which have the chat_id
     def getAccounts(self, chat_id):
-        numbers = self.c.execute('SELECT * FROM Account WHERE chat_id = ' + chat_id)
+        numbers = self.c.execute('SELECT * FROM Account WHERE chat_id = ' + str(chat_id))
         res_numbers = list()
         for i in numbers:
             res_numbers.append(Account(i[0], i[1], i[2], i[3], i[4]))

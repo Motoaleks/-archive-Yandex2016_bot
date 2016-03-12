@@ -4,7 +4,7 @@ class BalanceStateHandler(StateHandler):
     def __init__(self):
         id=0
         state_menu=[]
-    def EnterState(self, ui, stateHandlers):
+    def EnterState(self, ui, stateHandlers, account):
         pass
     def EvaluateState(self, ui, msg, stateHandlers):
         import telepot

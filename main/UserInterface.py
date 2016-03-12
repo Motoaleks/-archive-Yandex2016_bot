@@ -42,7 +42,7 @@ class UserInterface(telepot.helper.UserHandler):
     def on_message(self, msg):
         flavor = telepot.flavor(msg)
         if flavor == 'normal':
-            content_type, chat_type, chat_id = telepot.glance(msg)
+            content_type, chat_type, self.chat_id = telepot.glance(msg)
             if chat_type=='private':
                 if content_type=='text':
                     if( msg['text']=='/help' and not self.user_state ==StateHandlers.StateHandler.State.main):
