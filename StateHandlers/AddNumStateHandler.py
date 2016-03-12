@@ -3,8 +3,8 @@ from yandexAPI import get_auth_url
 from DB.AccountBot import Account, TypeOfAccount
 class AddNumStateHandler(StateHandler):
     def __init__(self):
-        id=StateHandler.State.add_numb
-        state_menu=["Назад"]
+        self.id=StateHandler.State.add_numb
+        self.state_menu=["Назад"]
     def EnterState(self, ui, stateHandlers,ac):
         self.account=ac
         ui.user_state = self.id
@@ -22,6 +22,13 @@ class AddNumStateHandler(StateHandler):
             return
         else:  # Ввели номер с клавиатуры
             try:
-                pass
+                self.account.setNumber(msg['text'])
             except:
-                pass
+                ui.sender.sendMessage("Введен неправильный номер.")
+                stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers)
+                return
+            if self.account.isValid():
+                pass # todo add to BD
+            else:
+                pass #
+            stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers,self.account)

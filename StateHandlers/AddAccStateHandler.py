@@ -4,8 +4,8 @@ from yandexAPI import get_auth_url
 
 class AddAccStateHandler(StateHandler):
     def __init__(self):
-        id = StateHandler.State.add_acc
-        state_menu = ["Мобильный телефон", "Карта 'Стрелка'", "Карта 'Тройка'", "Назад"]
+        self.id = StateHandler.State.add_acc
+        self.state_menu = ["Мобильный телефон", "Карта 'Стрелка'", "Карта 'Тройка'", "Назад"]
 
     def EnterState(self, ui, stateHandlers):
         ui.user_state = self.id

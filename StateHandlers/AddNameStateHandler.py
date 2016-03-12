@@ -5,8 +5,8 @@ from DB.AccountBot import Account, TypeOfAccount
 
 class AddNameStateHandler(StateHandler):
     def __init__(self):
-        id = StateHandler.State.add_name
-        state_menu = ["Назад"]
+        self.id = StateHandler.State.add_name
+        self.state_menu = ["Назад"]
 
     def EnterState(self, ui, stateHandlers, ac):
         self.account = ac
