@@ -18,4 +18,4 @@ class MainStateHandler(StateHandler):
         elif msg['text'] == self.state_menu[1]:  # "Добавить счёт"
             pass
         else:
-            self.EnterState(ui)
+            self.EnterState(ui, stateHandlers)

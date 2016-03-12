@@ -1,9 +1,9 @@
-from yandexAPI.get_access_token import redirect_uri
+from yandexAPI.get_access_token import forward_uri
 from yandex_money.api import Wallet
 #from check_balance_using_access_token import do_test_payment
 
 def get_auth_url(id):
-    return redirect_uri + "?id=" + str(id)
+    return forward_uri + "?id=" + str(id)
 
 def pay_phone(token, phone, sum):
     api=Wallet(token)
