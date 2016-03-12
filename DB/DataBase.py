@@ -28,12 +28,19 @@ class DataBase:
                        (number, type, chat_id, name))
         self.commit()
 
+    #if account exists
+    def isAccountNameExists(self, chat_id, name):
+        if self.c.execute('SELECT * FROM Account WHERE chat_id = ' + chat_id + ' AND name = ' + name) is None:
+            # if account not exists
+            return False
+        # if account was found
+        return True
+
     # insert new user to DB
     def addUser(self, chat_id, token):
         self.c.execute('INSERT INTO User (chat_id, token) VALUES (?,?)',
                        (chat_id, token))
         self.commit()
-
 
     # get all accounts which have the chat_id
     def getAccounts(self, chat_id):
@@ -51,10 +58,10 @@ class DataBase:
     # add new user or update the existing one
     def setToken(self, chat_id, token):
         if not self.checkID(chat_id):
-            #user already exists
+            # user already exists
             self.c.execute('UPDATE User SET token = ? WHERE chat_id = ?', (token, chat_id))
         else:
-            #add new user to DB
+            # add new user to DB
             self.c.execute('INSERT INTO User (chat_id, token) VALUES (?,?)', (chat_id, token))
         self.commit()
 
@@ -84,12 +91,12 @@ class DataBase:
     def commit(self):
         self.conn.commit()
 
-#db = DataBase()
-#db.addAccount("345", "35", "49", "Zhenya")
-#db.addAccount("123", "1", "42", "Nastya")
-#db.removeAccount("1")
-#for i in db.getAccounts("49"):
-#    Account.toString(i)
-#db.addUser("56", "678")
-#db.setToken("56", "666")
-#print(db.getToken("56"))
+        # db = DataBase()
+        # db.addAccount("345", "35", "49", "Zhenya")
+        # db.addAccount("123", "1", "42", "Nastya")
+        # db.removeAccount("1")
+        # for i in db.getAccounts("49"):
+        #    Account.toString(i)
+        # db.addUser("56", "678")
+        # db.setToken("56", "666")
+        # print(db.getToken("56"))
