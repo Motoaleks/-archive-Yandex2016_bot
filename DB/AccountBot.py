@@ -1,4 +1,9 @@
-from enum import Enum
+﻿from enum import Enum
+import SteelCard
+
+balance_for_troyka = " На любой из станций метро найдите желтый круг и приложите к нему свою карту. В апреле, возможно будет вам баланс."
+balance_for_phone = "Билайн - *102#.\nМегафон и МТС - *100#\n.Tele2 - *105#."
+
 
 class TypeOfAccount(Enum):
     STRELKA = 0     # 11 symbols
@@ -6,7 +11,7 @@ class TypeOfAccount(Enum):
     PHONE = 2       # 10 symbols
     KILLFISH = 777
 
-# All fields are str, except 'account_ID' � 'TYPE'
+# All fields are str, except 'account_ID' � 'TYPE'
 class Account:
     chat_ID = "" # user id
     account_ID = -1 # unique ID, may be used for deleting
@@ -49,6 +54,17 @@ class Account:
             raise Exception("Invalid number")
 
         self.NUMBER = valid_num
+
+    # Sasha, poprav' method!
+    def getBalance(self):
+        if(self.TYPE < 0 or self.TYPE > 2):
+            raise Exception("Invalid type of account")
+        if (self.TYPE == 1):
+            return balance_for_troyka
+        if (self.TYPE == 2):
+            return balance_for_phone
+
+        return SteelCard.get_balance(self.NUMBER)
 
     # Can we add object to DB
     def isValid(self):
