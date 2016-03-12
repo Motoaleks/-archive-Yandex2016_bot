@@ -1,5 +1,5 @@
 ﻿from enum import Enum
-from parsing import SteelCard
+from Parsing import SteelCard
 
 balance_for_troyka = " На любой из станций метро найдите желтый круг и приложите к нему свою карту. В апреле, возможно будет вам баланс."
 balance_for_phone = "Билайн - *102#.\nМегафон и МТС - *100#\n.Tele2 - *105#."
