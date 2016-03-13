@@ -1,7 +1,7 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
 from DB.AccountBot import Account, TypeOfAccount
-
+from DB.DataBase import DataBase
 
 class AddNameStateHandler(StateHandler):
     def __init__(self):
@@ -28,4 +28,9 @@ class AddNameStateHandler(StateHandler):
                 ui.sender.sendMessage("Введено слишком длинное имя. Ограничьтесь 15 символами)")
                 stateHandlers[StateHandler.State.add_acc].EnterState(ui, stateHandlers)
                 return
-            stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers, self.account)
+            db = DataBase()
+            if(db.isAccountNameExists(ui.chat_id, msg['text'])):
+                ui.sender.sendMessage("Имя уже существует")
+                self.EnterState(ui, stateHandlers, self.account)
+            else:
+                stateHandlers[StateHandler.State.add_numb].EnterState(ui, stateHandlers, self.account)
