@@ -32,7 +32,7 @@ class DataBase:
 
     #if account exists
     def isAccountNameExists(self, chat_id, name):
-        if self.c.execute('SELECT * FROM Account WHERE chat_id = ' + str(chat_id) + ' AND name = "' + name + '"') is None:
+        if self.c.execute('SELECT COUNT(*) FROM Account WHERE chat_id = ' + str(chat_id) + ' AND name = "' + name + '"').fetchone()[0] == 0:
             # if account not exists
             return False
         # if account was found
