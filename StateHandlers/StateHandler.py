@@ -9,6 +9,7 @@ class StateHandler:
         add_acc=5
         add_name=6
         add_numb=7
+        delete_acc=8
     def __init__(self):
         self.id=-1
         self.state_menu=[]

@@ -52,6 +52,11 @@ class DataBase:
             res_numbers.append(Account(i[3], i[0], TypeOfAccount(int(i[2])), i[4], i[1]))
         return res_numbers
 
+    def getNumAccounts(self, chat_id):
+        count = self.c.execute('SELECT count(*) FROM Account WHERE chat_id = ' + str(chat_id))
+        res = count.fetchone()
+        return res[0]
+
     # return token which has a user with such chat_id
     def getToken(self, chat_id):
         user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + str(chat_id))
@@ -82,7 +87,7 @@ class DataBase:
 
     # delete the
     def removeAccount(self, id):
-        self.c.execute('DELETE FROM Account WHERE id = ' + id)
+        self.c.execute('DELETE FROM Account WHERE id = ' + str(id))
         self.commit()
 
     # destructor - close connection

@@ -46,7 +46,8 @@ class Account:
 
         if ((self.TYPE == TypeOfAccount.STRELKA or self.TYPE == TypeOfAccount.PHONE) and len(number) != 11):#Strelka or telephone
             raise Exception("Invalid number")
-
+        if(self.TYPE == TypeOfAccount.PHONE and number[0] != "7"):
+            raise Exception("Invalid number")
         if ((self.TYPE == TypeOfAccount.TROYKA) and len(number) != 10):#Troika
             raise Exception("Invalid number")
 
@@ -60,6 +61,13 @@ class Account:
             return balance_for_phone
 
         return str(SteelCard.get_balance(self.NUMBER))
+
+    def getNumber(self):
+        if (self.TYPE == TypeOfAccount.TROYKA):
+            return "Номер карты тройка: " + self.NUMBER + "\n"
+        if (self.TYPE == TypeOfAccount.PHONE):
+            return "Номер телефона: " + self.NUMBER + "\n"
+        return "Номер карты стрелка: " + self.NUMBER + "\n"
 
     # Can we add object to DB
     def isValid(self):

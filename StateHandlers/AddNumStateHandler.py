@@ -34,7 +34,7 @@ class AddNumStateHandler(StateHandler):
                 db=DataBase()
                 ac=self.account
                 db.addAccount(ac.NUMBER,ac.TYPE,ac.chat_ID,ac.NAME)
-                ui.sender.sendMessage("Success")
+                ui.sender.sendMessage("Добавление счета успешно завершено.")
             else:
-                ui.sender.sendMessage("Failure")
+                ui.sender.sendMessage("Произошла ошибка при доавлении счета.")
             stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)

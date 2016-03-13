@@ -17,7 +17,8 @@ class UserInterface(telepot.helper.UserHandler):
                               StateHandlers.StateHandler.State.inpute_sum : StateHandlers.InputSumStateHandler(),
                               StateHandlers.StateHandler.State.add_acc : StateHandlers.AddAccStateHandler(),
                               StateHandlers.StateHandler.State.add_name : StateHandlers.AddNameStateHandler(),
-                              StateHandlers.StateHandler.State.add_numb : StateHandlers.AddNumStateHandler()
+                              StateHandlers.StateHandler.State.add_numb : StateHandlers.AddNumStateHandler(),
+                              StateHandlers.StateHandler.State.delete_acc : StateHandlers.DeleteAccStateHandler()
                               }
     def on_message(self, msg):
         flavor = telepot.flavor(msg)
