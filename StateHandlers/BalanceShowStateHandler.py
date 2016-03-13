@@ -11,9 +11,13 @@ class BalanceStateHandler(StateHandler):
     def EnterState(self, ui, stateHandlers, account):
         self.account = account
         ui.user_state = self.id
-        kb = [[self.state_menu[0]],[self.state_menu[1]]]
+        kb = [[self.state_menu[0]], [self.state_menu[1]]]
         show_keyboard = {'keyboard': kb}
-        ui.sender.sendMessage("Текущий баланс: " + account.getBalance(), reply_markup = show_keyboard)
+        try:
+            ui.sender.sendMessage("Текущий баланс: " + account.getBalance(), reply_markup=show_keyboard)
+        except ValueError:
+            ui.sender.sendMessage("Невозможно получить баланс для карты, проверьте правильность данных",
+                                  reply_markup=show_keyboard)
 
     def EvaluateState(self, ui, msg, stateHandlers):
         if msg['text'] == self.state_menu[0]:
