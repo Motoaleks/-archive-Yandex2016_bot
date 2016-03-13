@@ -1,3 +1,4 @@
+#coding=UTF-8
 """
 URL redirection example.
 """
@@ -29,10 +30,11 @@ class RedirectHandler(BaseHTTPRequestHandler):
             print(self.path)
             ps = parse_qs(self.path[10:])
             set_token(ps['code'][0], ps['id'][0], db)
-            bot.sendMessage(ps['id'][0], 'Thanks. Now we can continue with sending money. Send me /help and follow instrucitions.')
+            bot.sendMessage(ps['id'][0], "Спасибо. Теперь вы можете добавить карты и телефоны. Отправьте /help и следуйте инструкицям.")
             self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=UTF-8")
             self.end_headers()
-            self.wfile.write('Thank you. Now you can close this window.')
+            self.wfile.write('Спасибо. Сейчас вы можете закрыть это окно.'.encode(encoding='utf_8'))
 
 httpd = HTTPServer((HOST_NAME, PORT_NUMBER), RedirectHandler)
 print(time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER))
