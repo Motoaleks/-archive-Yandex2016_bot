@@ -19,7 +19,7 @@ class MainStateHandler(StateHandler):
         if(num_ac>0):
             kb.append([self.state_menu[2]])
         show_keyboard = {'keyboard': kb}
-        ui.sender.sendMessage("Выберете команду.", reply_markup=show_keyboard)
+        ui.sender.sendMessage("Выберите команду.", reply_markup=show_keyboard)
 
     def EvaluateState(self, ui, msg, stateHandlers):
         if msg['text'] == self.state_menu[0]:  # "Проверить и пополнить баланс"
