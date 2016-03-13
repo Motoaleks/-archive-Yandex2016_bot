@@ -22,4 +22,4 @@ class BalanceStateHandler(StateHandler):
             stateHandlers[StateHandler.State.choose_acc].EnterState(ui, stateHandlers)
         else:
             ui.sender.sendMessage("Неверная команда")
-            stateHandlers[StateHandler.State.balance_show].EnterState(ui, stateHandlers, self.acccount)
+            stateHandlers[StateHandler.State.balance_show].EnterState(ui, stateHandlers, self.account)

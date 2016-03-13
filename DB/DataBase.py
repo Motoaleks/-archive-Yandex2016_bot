@@ -54,14 +54,14 @@ class DataBase:
 
     # return token which has a user with such chat_id
     def getToken(self, chat_id):
-        user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + chat_id)
+        user = self.c.execute('SELECT * FROM User WHERE chat_id = ' + str(chat_id))
         return user.fetchone()[1]
 
     # add new user or update the existing one
     def setToken(self, chat_id, token):
         if not self.checkID(chat_id):
             # user already exists
-            self.c.execute('UPDATE User SET token = ? WHERE chat_id = ?', (token, chat_id))
+            self.c.execute('UPDATE User SET token = ? WHERE chat_id = ?', (token, str(chat_id)))
         else:
             # add new user to DB
             self.c.execute('INSERT INTO User (chat_id, token) VALUES (?,?)', (chat_id, token))

@@ -24,6 +24,7 @@ def pay_phone(token, phone, sum):
     if process_result['status'] == "success":
         return True
     else:
+        raise Exception("Payment failed")
         return False
 
 def pay_troyka(token, num, sum):
@@ -31,7 +32,7 @@ def pay_troyka(token, num, sum):
     request_options = {
     "pattern_id": "10449",
     "customerNumber": num,
-    "amount": sum,
+    "sum": sum,
     "comment": "Payment from bot",
     "message": "Payment from bot",
     }
@@ -45,14 +46,15 @@ def pay_troyka(token, num, sum):
     if process_result['status'] == "success":
         return True
     else:
+        raise Exception("Payment failed")
         return False
 
-def pay_strelka(tokem, num, sum):
+def pay_strelka(token, num, sum):
     api=Wallet(token)
     request_options = {
-    "pattern_id": "10449",
+    "pattern_id": "20651",
     "korona_transportCardId": num,
-    "amount": sum,
+    "sum": sum,
     "comment": "Payment from bot",
     "message": "Payment from bot",
     }
@@ -66,4 +68,5 @@ def pay_strelka(tokem, num, sum):
     if process_result['status'] == "success":
         return True
     else:
+        raise Exception("Payment failed")
         return False

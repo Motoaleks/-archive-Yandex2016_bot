@@ -1,6 +1,8 @@
 from StateHandlers.StateHandler import StateHandler
 from yandexAPI import get_auth_url
-
+import yandexAPI
+from DB.AccountBot import TypeOfAccount
+from DB.DataBase import DataBase
 
 class InputSumStateHandler(StateHandler):
     def __init__(self):
@@ -18,10 +20,22 @@ class InputSumStateHandler(StateHandler):
         if msg['text'] == self.state_menu[0]:
             stateHandlers[StateHandler.State.balance_show].EnterState(ui, stateHandlers, self.account)
         elif msg['text'].isdigit():
+            db = DataBase()
+            token = db.getToken(ui.chat_id)
             # todo: fuck Magic, do Yandex Money here
-            #if(self.account.ty)
-            # stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)
-            pass
+            result = False
+            try:
+                if(self.account.TYPE == TypeOfAccount.PHONE):
+                    result = yandexAPI.pay_phone(token, self.account.NUMBER, msg['text'])
+                elif(self.account.TYPE == TypeOfAccount.TROYKA):
+                    result = yandexAPI.pay_troyka(token, self.account.NUMBER, msg['text'])
+                elif(self.account.TYPE == TypeOfAccount.STRELKA):
+                    result = yandexAPI.pay_strelka(token, self.account.NUMBER, msg['text'])
+            except:
+                ui.sender.sendMessage("Пополнить баланс не удалось.");
+            if(result):
+                ui.sender.sendMessage("Пополнение успешно.");
+            stateHandlers[StateHandler.State.main].EnterState(ui, stateHandlers)
         else:
             ui.sender.sendMessage("Неверная команда")
             stateHandlers[StateHandler.State.inpute_sum].EnterState(ui, stateHandlers, self.acccount)
