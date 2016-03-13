@@ -49,7 +49,7 @@ class DataBase:
         numbers = self.c.execute('SELECT * FROM Account WHERE chat_id = ' + str(chat_id))
         res_numbers = list()
         for i in numbers:
-            res_numbers.append(Account(i[3], i[0], i[2], i[4], i[1]))
+            res_numbers.append(Account(i[3], i[0], TypeOfAccount(int(i[2])), i[4], i[1]))
         return res_numbers
 
     # return token which has a user with such chat_id

@@ -5,13 +5,15 @@ from yandexAPI import get_auth_url
 
 class BalanceStateHandler(StateHandler):
     def __init__(self):
-        self.state_menu = [["Пополнить"], ["Назад"]]
+        self.id = StateHandler.State.balance_show
+        self.state_menu = ["Пополнить", "Назад"]
 
     def EnterState(self, ui, stateHandlers, account):
         self.account = account
         ui.user_state = self.id
-        ui.sender.sendMessage("Текущий баланс: " + account.getBalance())
-        ui.sender.sendMessage(reply_marking=self.state_menu)
+        kb = [[self.state_menu[0]],[self.state_menu[1]]]
+        show_keyboard = {'keyboard': kb}
+        ui.sender.sendMessage("Текущий баланс: " + account.getBalance(), reply_markup = show_keyboard)
 
     def EvaluateState(self, ui, msg, stateHandlers):
         if msg['text'] == self.state_menu[0]:

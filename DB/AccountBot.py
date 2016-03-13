@@ -54,11 +54,9 @@ class Account:
 
     # Sasha, poprav' method!
     def getBalance(self):
-        if(self.TYPE < 0 or self.TYPE > 2):
-            raise Exception("Invalid type of account")
-        if (self.TYPE == 1):
+        if (self.TYPE == TypeOfAccount.TROYKA):
             return balance_for_troyka
-        if (self.TYPE == 2):
+        if (self.TYPE == TypeOfAccount.PHONE):
             return balance_for_phone
 
         return SteelCard.get_balance(self.NUMBER)
