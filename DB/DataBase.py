@@ -1,6 +1,6 @@
 import sqlite3
 
-from DB.AccountBot import Account
+from DB.AccountBot import Account, TypeOfAccount
 
 
 class DataBase:
@@ -27,7 +27,7 @@ class DataBase:
     # insert new account to DB
     def addAccount(self, number, type, chat_id, name):
         self.c.execute('INSERT INTO Account (number, type, chat_id, name) VALUES (?,?,?,?)',
-                       (number, type, chat_id, name))
+                       (number, type.value, chat_id, name))
         self.commit()
 
     #if account exists
@@ -49,7 +49,7 @@ class DataBase:
         numbers = self.c.execute('SELECT * FROM Account WHERE chat_id = ' + str(chat_id))
         res_numbers = list()
         for i in numbers:
-            res_numbers.append(Account(i[0], i[1], i[2], i[3], i[4]))
+            res_numbers.append(Account(i[3], i[0], i[2], i[4], i[1]))
         return res_numbers
 
     # return token which has a user with such chat_id

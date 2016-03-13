@@ -16,6 +16,6 @@ class MainStateHandler(StateHandler):
         if msg['text'] == self.state_menu[0]:  # "Проверить и пополнить баланс"
             stateHandlers[StateHandler.State.choose_acc].EnterState(ui, stateHandlers)
         elif msg['text'] == self.state_menu[1]:  # "Добавить счёт"
-            pass
+            stateHandlers[StateHandler.State.add_acc].EnterState(ui,stateHandlers)
         else:
-            self.EnterState(ui)
+            self.EnterState(ui, stateHandlers)
