@@ -59,7 +59,7 @@ class Account:
         if (self.TYPE == TypeOfAccount.PHONE):
             return balance_for_phone
 
-        return SteelCard.get_balance(self.NUMBER)
+        return str(SteelCard.get_balance(self.NUMBER))
 
     # Can we add object to DB
     def isValid(self):

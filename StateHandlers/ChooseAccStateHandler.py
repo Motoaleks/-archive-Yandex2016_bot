@@ -23,7 +23,7 @@ class ChooseAccStateHandler(StateHandler):
             strip.append(cards[i].NAME)
             self.cards.update({cards[i].NAME: cards[i]})
             if i % 2 == 1:
-                kb.append[strip]
+                kb.append(strip)
                 strip = []
         if i%2==0:
             kb.append(strip)
