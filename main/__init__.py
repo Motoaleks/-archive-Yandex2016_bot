@@ -8,7 +8,7 @@ TOKEN = sys.argv[1]
 bot = telepot.DelegatorBot(TOKEN, [(per_from_id(),
                                     create_open(UserInterface,
                                                 timeout=3600)), ])
-bot.sendMessage(54016973, 'Bileter bot started')
+#bot.sendMessage(54016973, 'Bileter bot started')
 print('Listening ...')
 bot.notifyOnMessage(run_forever=True)
 
